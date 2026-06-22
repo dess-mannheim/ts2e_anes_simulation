@@ -1,4 +1,4 @@
-# GABM Vote Prediction
+# TS2E ANES Simulation
 Implement design choices in US vote prediction using the [QSTN framework](https://github.com/dess-mannheim/QSTN/)
 
 ## Getting Started
