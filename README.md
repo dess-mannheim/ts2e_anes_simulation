@@ -10,7 +10,7 @@ pip install qstn[vllm]
 
 Then, download and preprocess the ANES data, as shown in `preprocess_ANES.ipynb`.
 
-Next, run the survey inference with `vote_prediction/qstn_vote_prediction.py` or use the provided scripts (`./slurm`) to launch a batch job.
+Next, run the survey inference with `vote_prediction/qstn_vote_prediction.py`.
 
 `vote_prediction/qstn_response_annotation.py` can be used for annotating open-ended responses with LLM-as-a-judge.
 
