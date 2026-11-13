@@ -15,7 +15,8 @@ from templates import create_personas
 
 ### Experiment settings
 DEBUG_SAMPLE_SIZE = 32
-SAVE_PATH = "../results/{debug}results_{model_str}_seed{seed}.csv"
+DATA_PATH = "../data/2024_anes_pre-election_preprocessed.csv"
+SAVE_PATH = "../results/pre_election/{debug}results_{model_str}_seed{seed}.csv"
 
 def main():
 
@@ -54,7 +55,7 @@ def main():
     #'logprobResponse': AnswerOptions(_options, response_generation_method = LogprobResponseGenerationMethod())
   }
 
-  anes_df = pd.read_csv('../data/2024_anes_preprocessed.csv') # NOTE: contains item-level missingness
+  anes_df = pd.read_csv(DATA_PATH) # NOTE: contains item-level missingness
   if args.debug: anes_df = anes_df.sample(DEBUG_SAMPLE_SIZE, random_state=args.seed)
 
   # Full personas based on available items — complete cases can be filtered later

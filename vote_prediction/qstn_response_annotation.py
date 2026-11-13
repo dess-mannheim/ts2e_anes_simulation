@@ -15,8 +15,8 @@ from qstn.parser import parse_json
 ### Experiment settings
 DEBUG_SAMPLE_SIZE = 8
 SEED = 42 # random seed
-SAVE_PATH = "../results/{debug}annotated_{model_str}.csv"
-LOAD_PATH = "../results/results_{model_str}{seed_suffix}.csv"
+SAVE_PATH = "../results/pre_election/{debug}annotated_{model_str}{source_suffix}.csv"
+LOAD_PATH = "../results/pre_election/results_{model_str}_seed{seed}.csv"
 SOURCE_SEEDS = [42, 43, 44, 45, 46]
 
 LOAD_MODELS = [
@@ -49,8 +49,14 @@ arg_parser.add_argument('--model_id', type=str, help='LLM model name from huggin
 arg_parser.add_argument('--debug', type=bool, default=False,
                     const=True, nargs='?', # allow for just setting "--debug" to evaluate to True
                     help='Run in debug mode')
+arg_parser.add_argument('--source_model', type=str, default=None,
+                    help='Only annotate the responses of this model (one of LOAD_MODELS), e.g. to run annotations in parallel')
 
 args = arg_parser.parse_args()
+
+if args.source_model is not None:
+  assert args.source_model in LOAD_MODELS, f"Unknown source model: {args.source_model}"
+  LOAD_MODELS = [args.source_model]
 
 model_kwargs = {"max_model_len": 15000}
 chat_template_kwargs = {'enable_thinking': False}
@@ -73,7 +79,8 @@ response_options = AnswerOptions(_options, response_generation_method = JSONSing
 
 save_path = SAVE_PATH.format(
   model_str=args.model_id.split('/')[1],
-  debug='debug_' if args.debug else ''
+  debug='debug_' if args.debug else '',
+  source_suffix=f'_{args.source_model}' if args.source_model is not None else ''
 )
 existing_annotated_df = pd.read_csv(save_path, low_memory=False) if os.path.exists(save_path) else None
 
@@ -92,8 +99,7 @@ original_response_dfs = []
 
 for original_model in LOAD_MODELS:
   for seed in SOURCE_SEEDS:
-    seed_suffix = "" if seed == 42 else f"_seed{seed}"
-    path = LOAD_PATH.format(model_str=original_model, seed_suffix=seed_suffix)
+    path = LOAD_PATH.format(model_str=original_model, seed=seed)
     if not os.path.exists(path):
       continue  # tolerate missing seed files
 

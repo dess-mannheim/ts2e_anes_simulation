@@ -1,5 +1,8 @@
 # custom
+docs/
+data/
 slurm_logs/
+results/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
