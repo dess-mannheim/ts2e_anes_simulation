@@ -9,6 +9,8 @@ and **adjustment** — giving 288 simulation configurations (144 of them run ove
 total of 3,651,120 simulated responses across 6 open-weight LLMs. Survey simulation uses the
 [QSTN framework](https://github.com/dess-mannheim/QSTN/).
 
+This repository  also contains the [TS2E checklist in a document format](https://github.com/dess-mannheim/ts2e_anes_simulation/blob/main/TS2E_checklist_template.docx).
+
 ## Repository layout
 
 | Path | Purpose |
